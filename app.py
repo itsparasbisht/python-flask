@@ -31,6 +31,22 @@ def show_todos():
     print(allTodo)
     return render_template('index.html', allTodo=allTodo)
 
+@app.route('/update/<int:id>', methods=["GET", "POST"])
+def update(id):
+    if request.method == "POST":
+        title = request.form['title']
+        desc = request.form['desc']
+
+        todo = Todo.query.filter_by(id=id).first()
+        todo.title = title
+        todo.description = desc
+        db.session.add(todo)
+        db.session.commit()
+        return redirect("/")
+
+    todo = Todo.query.filter_by(id=id).first()
+    return render_template('update.html', todo=todo)
+
 @app.route('/delete/<int:id>')
 def delete(id):
     todo = Todo.query.filter_by(id=id).first()
