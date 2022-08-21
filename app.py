@@ -22,14 +22,16 @@ def hello_world():
     record = Todo(title='first todo', description='a test description')
     db.session.add(record)
     db.session.commit()
-    return render_template('index.html')
+
+    allTodo = Todo.query.all()
+    print(allTodo)
+    return render_template('index.html', allTodo=allTodo)
 
 @app.route('/show-todos')
 def show_todos():
     data = Todo.query.all()
     print(data)
     return "show todos"
-    # return json.dumps(data, indent=4)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
