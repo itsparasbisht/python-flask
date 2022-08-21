@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">MyToDo</a>
+            <a class="navbar-brand" href="/">MyToDo</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -54,16 +54,16 @@
 
     <div class="container my-3">
         <h2>Add a ToDo</h2>
-        <form>
+        <form action="/" method="POST">
             <div class="mb-3">
                 <label for="title" class="form-label">Todo Title</label>
-                <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+                <input type="text" class="form-control" name="title" id="title" aria-describedby="emailHelp">
             </div>
             <div class="mb-3">
                 <label for="desc" class="form-label">Todo Description</label>
-                <input type="text" class="form-control" id="exampleInputPassword1">
+                <input type="text" class="form-control" name="desc" id="desc">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-dark">Submit</button>
         </form>
     </div>
 
@@ -76,6 +76,7 @@
                     <th scope="col">Title</th>
                     <th scope="col">Description</th>
                     <th scope="col">Time</th>
+                    <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -85,6 +86,10 @@
                     <td>{{todo.title}}</td>
                     <td>{{todo.description}}</td>
                     <td>{{todo.date_created}}</td>
+                    <td>
+                        <a href="/update/{{todo.id}}" type="button" class="btn btn-outline-dark btn-sm">Update</a>
+                        <a href="/delete/{{todo.id}}" type="button" class="btn btn-outline-dark btn-sm">Delete</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

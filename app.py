@@ -1,6 +1,6 @@
 from datetime import datetime
-import json
-from flask import Flask, render_template
+from urllib import request
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -17,21 +17,19 @@ class Todo(db.Model):
     def __repr__(self) -> str:
         return f"{self.id} {self.title}"
 
-@app.route('/')
-def hello_world():
-    record = Todo(title='first todo', description='a test description')
-    db.session.add(record)
-    db.session.commit()
+@app.route('/', methods=['GET', 'POST'])
+def show_todos():
+    if request.method == "POST":
+        title = request.form['title']
+        desc = request.form['desc']
+
+        record = Todo(title=title, description=desc)
+        db.session.add(record)
+        db.session.commit()
 
     allTodo = Todo.query.all()
     print(allTodo)
     return render_template('index.html', allTodo=allTodo)
-
-@app.route('/show-todos')
-def show_todos():
-    data = Todo.query.all()
-    print(data)
-    return "show todos"
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
