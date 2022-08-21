@@ -1,6 +1,6 @@
 from datetime import datetime
 from urllib import request
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -30,6 +30,13 @@ def show_todos():
     allTodo = Todo.query.all()
     print(allTodo)
     return render_template('index.html', allTodo=allTodo)
+
+@app.route('/delete/<int:id>')
+def delete(id):
+    todo = Todo.query.filter_by(id=id).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect('/')
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)
